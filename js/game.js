@@ -24,38 +24,47 @@ class PlayScene extends Phaser.Scene {
         playerGraphics.destroy();
         console.log('Player placeholder texture created.');
 
-        // Create a placeholder for the ground
+        // Create a wider placeholder for the ground for scrolling
         const groundGraphics = this.make.graphics({ fillStyle: { color: 0x00ff00 } }); // Green rectangle
-        groundGraphics.fillRect(0, 0, 800, 32);
-        groundGraphics.generateTexture('ground_placeholder', 800, 32);
+        groundGraphics.fillRect(0, 0, 4000, 32);
+        groundGraphics.generateTexture('ground_placeholder', 4000, 32);
         groundGraphics.destroy();
         console.log('Ground placeholder texture created.');
     }
 
     create() {
-        // Add the player sprite to the scene, near the top, to see it fall
-        this.player = this.physics.add.sprite(this.cameras.main.width / 2, 100, 'player_placeholder');
+        // Add the player sprite to the scene, near the start of the level
+        this.player = this.physics.add.sprite(100, 100, 'player_placeholder');
 
-        // Prevent the player from going off-screen
-        this.player.setCollideWorldBounds(true);
+        // Give the player a constant forward velocity
+        this.player.setVelocityX(150);
 
-        // Create the ground platform as a static physics object
-        const ground = this.physics.add.staticSprite(400, 584, 'ground_placeholder');
+        // Create the ground platform
+        const ground = this.physics.add.staticSprite(2000, 584, 'ground_placeholder');
 
         // Add a collider between the player and the ground
         this.physics.add.collider(this.player, ground);
 
+        // --- WORLD AND CAMERA SETUP ---
+        // Set the world bounds to be the size of our ground
+        this.physics.world.setBounds(0, 0, 4000, 600);
+        // Make the camera follow the player
+        this.cameras.main.setBounds(0, 0, 4000, 600);
+        this.cameras.main.startFollow(this.player);
+
+        // The player should still collide with the world bounds
+        this.player.setCollideWorldBounds(true);
+
         // Set up keyboard input for the Spacebar
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        console.log('PlayScene created with player, ground, collision, and input.');
+        console.log('PlayScene created with auto-scrolling.');
     }
 
     update() {
-        // Simple jump mechanic:
-        // The player can only jump if they are on the ground.
+        // Simple jump mechanic
         if (Phaser.Input.Keyboard.JustDown(this.spaceBar) && this.player.body.touching.down) {
-            this.player.setVelocityY(-300); // Apply a vertical velocity upwards
+            this.player.setVelocityY(-300);
         }
     }
 }
@@ -69,7 +78,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 }, // Apply vertical gravity
+            gravity: { y: 300 },
             debug: false
         }
     }
