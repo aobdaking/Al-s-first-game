@@ -17,55 +17,62 @@ class PlayScene extends Phaser.Scene {
     }
 
     preload() {
-        // Create a placeholder texture for the player
-        const playerGraphics = this.make.graphics({ fillStyle: { color: 0xff0000 } }); // Red rectangle
+        // Player placeholder
+        const playerGraphics = this.make.graphics({ fillStyle: { color: 0xff0000 } });
         playerGraphics.fillRect(0, 0, 32, 48);
         playerGraphics.generateTexture('player_placeholder', 32, 48);
         playerGraphics.destroy();
-        console.log('Player placeholder texture created.');
 
-        // Create a wider placeholder for the ground for scrolling
-        const groundGraphics = this.make.graphics({ fillStyle: { color: 0x00ff00 } }); // Green rectangle
+        // Ground placeholder
+        const groundGraphics = this.make.graphics({ fillStyle: { color: 0x00ff00 } });
         groundGraphics.fillRect(0, 0, 4000, 32);
         groundGraphics.generateTexture('ground_placeholder', 4000, 32);
         groundGraphics.destroy();
-        console.log('Ground placeholder texture created.');
+
+        // Obstacle placeholder
+        const obstacleGraphics = this.make.graphics({ fillStyle: { color: 0x0000ff } });
+        obstacleGraphics.fillRect(0, 0, 32, 64);
+        obstacleGraphics.generateTexture('obstacle_placeholder', 32, 64);
+        obstacleGraphics.destroy();
     }
 
     create() {
-        // Add the player sprite to the scene, near the start of the level
+        // Player setup
         this.player = this.physics.add.sprite(100, 100, 'player_placeholder');
-
-        // Give the player a constant forward velocity
         this.player.setVelocityX(150);
+        this.player.setCollideWorldBounds(true);
 
-        // Create the ground platform
+        // Ground setup
         const ground = this.physics.add.staticSprite(2000, 584, 'ground_placeholder');
-
-        // Add a collider between the player and the ground
         this.physics.add.collider(this.player, ground);
 
-        // --- WORLD AND CAMERA SETUP ---
-        // Set the world bounds to be the size of our ground
+        // Obstacle setup
+        this.obstacles = this.physics.add.staticGroup();
+        this.obstacles.create(600, 552, 'obstacle_placeholder');
+        this.obstacles.create(950, 552, 'obstacle_placeholder');
+        this.obstacles.create(1400, 552, 'obstacle_placeholder');
+        this.obstacles.create(1800, 552, 'obstacle_placeholder');
+        this.physics.add.collider(this.player, this.obstacles, this.hitObstacle, null, this);
+
+        // World and Camera setup
         this.physics.world.setBounds(0, 0, 4000, 600);
-        // Make the camera follow the player
         this.cameras.main.setBounds(0, 0, 4000, 600);
         this.cameras.main.startFollow(this.player);
 
-        // The player should still collide with the world bounds
-        this.player.setCollideWorldBounds(true);
-
-        // Set up keyboard input for the Spacebar
+        // Input setup
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-        console.log('PlayScene created with auto-scrolling.');
     }
 
     update() {
-        // Simple jump mechanic
+        // Jump mechanic
         if (Phaser.Input.Keyboard.JustDown(this.spaceBar) && this.player.body.touching.down) {
             this.player.setVelocityY(-300);
         }
+    }
+
+    hitObstacle(player, obstacle) {
+        // When the player hits an obstacle, restart the scene
+        this.scene.restart();
     }
 }
 
