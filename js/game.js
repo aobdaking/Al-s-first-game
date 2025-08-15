@@ -45,7 +45,18 @@ class PlayScene extends Phaser.Scene {
         // Add a collider between the player and the ground
         this.physics.add.collider(this.player, ground);
 
-        console.log('PlayScene created with player, ground, and collision.');
+        // Set up keyboard input for the Spacebar
+        this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        console.log('PlayScene created with player, ground, collision, and input.');
+    }
+
+    update() {
+        // Simple jump mechanic:
+        // The player can only jump if they are on the ground.
+        if (Phaser.Input.Keyboard.JustDown(this.spaceBar) && this.player.body.touching.down) {
+            this.player.setVelocityY(-300); // Apply a vertical velocity upwards
+        }
     }
 }
 
