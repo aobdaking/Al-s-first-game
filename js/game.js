@@ -6,10 +6,29 @@ class BootScene extends Phaser.Scene {
     }
 
     create() {
-        // This scene runs first. It can be used to load assets for a preloader.
-        // For now, we'll just confirm it's working and show a black screen.
-        console.log('BootScene is active.');
-        this.cameras.main.setBackgroundColor('#000000');
+        console.log('BootScene is active. Starting PlayScene...');
+        this.scene.start('PlayScene');
+    }
+}
+
+class PlayScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'PlayScene' });
+    }
+
+    preload() {
+        // Create a placeholder texture for the player
+        const graphics = this.make.graphics({ fillStyle: { color: 0xff0000 } }); // Red rectangle
+        graphics.fillRect(0, 0, 32, 48);
+        graphics.generateTexture('player_placeholder', 32, 48);
+        graphics.destroy();
+        console.log('Player placeholder texture created.');
+    }
+
+    create() {
+        // Add the player sprite to the scene, centered
+        this.player = this.physics.add.sprite(this.cameras.main.width / 2, this.cameras.main.height / 2, 'player_placeholder');
+        console.log('PlayScene created and player added.');
     }
 }
 
@@ -18,7 +37,7 @@ const config = {
     width: 800,
     height: 600,
     parent: 'game-container',
-    scene: [BootScene],
+    scene: [BootScene, PlayScene],
     physics: {
         default: 'arcade',
         arcade: {
