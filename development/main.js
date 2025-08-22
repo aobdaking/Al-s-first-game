@@ -1,5 +1,10 @@
+
 import BootScene from './components/BootScene.js';
 import PlayScene from './components/PlayScene.js';
+
+import BootScene from './components/BootScene.js';
+import PlayScene from './components/PlayScene.js';
+
 
 const config = {
     type: Phaser.AUTO,
