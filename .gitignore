@@ -1,0 +1,5 @@
+# Ignore the production directory, which contains build artifacts
+production/
+
+# Ignore log files
+*.log
