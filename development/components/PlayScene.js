@@ -1,6 +1,7 @@
 export default class PlayScene extends Phaser.Scene {
     constructor() {
         super({ key: 'PlayScene' });
+        this.SCROLL_SPEED = 2; // Speed of the auto-scroll
     }
 
     preload() {
@@ -12,8 +13,8 @@ export default class PlayScene extends Phaser.Scene {
 
         // Ground placeholder
         const groundGraphics = this.make.graphics({ fillStyle: { color: 0x00ff00 } });
-        groundGraphics.fillRect(0, 0, 4000, 32);
-        groundGraphics.generateTexture('ground_placeholder', 4000, 32);
+        groundGraphics.fillRect(0, 0, 400000, 32);
+        groundGraphics.generateTexture('ground_placeholder', 400000, 32);
         groundGraphics.destroy();
 
         // Obstacle placeholder
@@ -26,15 +27,13 @@ export default class PlayScene extends Phaser.Scene {
     create() {
         // Player setup
         this.player = this.physics.add.sprite(100, 100, 'player_placeholder');
-        this.player.setVelocityX(150);
-        this.player.setCollideWorldBounds(true);
 
         // Ground setup
-        const ground = this.physics.add.staticSprite(2000, 584, 'ground_placeholder');
+        const ground = this.physics.add.staticSprite(200000, 584, 'ground_placeholder');
         this.physics.add.collider(this.player, ground);
 
         // Obstacle setup
-        this.obstacles = this.physics.add.staticGroup();
+        this.obstacles = this.physics.add.group({ allowGravity: false });
         this.obstacles.create(600, 552, 'obstacle_placeholder');
         this.obstacles.create(950, 552, 'obstacle_placeholder');
         this.obstacles.create(1400, 552, 'obstacle_placeholder');
@@ -42,9 +41,8 @@ export default class PlayScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.obstacles, this.hitObstacle, null, this);
 
         // World and Camera setup
-        this.physics.world.setBounds(0, 0, 4000, 600);
-        this.cameras.main.setBounds(0, 0, 4000, 600);
-        this.cameras.main.startFollow(this.player);
+        this.physics.world.setBounds(0, 0, 400000, 600);
+        this.cameras.main.setBounds(0, 0, 400000, 600);
 
         // Input setup
         this.spaceBar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -56,6 +54,30 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     update() {
+        // Auto-scroll the camera
+        this.cameras.main.scrollX += this.SCROLL_SPEED;
+
+        // Keep player aligned with the camera scroll
+        this.player.x = this.cameras.main.scrollX + 100;
+
+        // Obstacle Recycling
+        this.obstacles.getChildren().forEach(obstacle => {
+            // If an obstacle is off-screen to the left
+            if (obstacle.getBounds().right < this.cameras.main.scrollX) {
+                // Find the rightmost obstacle's position
+                let rightmostX = 0;
+                this.obstacles.getChildren().forEach(child => {
+                    if (child.x > rightmostX) {
+                        rightmostX = child.x;
+                    }
+                });
+                // Move the obstacle to the right of the rightmost one, with random spacing and height
+                const newX = rightmostX + Phaser.Math.Between(350, 550);
+                const newY = Phaser.Math.Between(500, 552);
+                obstacle.body.reset(newX, newY);
+            }
+        });
+
         // Jump mechanic
         if (Phaser.Input.Keyboard.JustDown(this.spaceBar) && this.player.body.touching.down) {
             this.player.setVelocityY(-450); // Apply a snappier vertical velocity upwards
