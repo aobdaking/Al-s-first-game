@@ -1,17 +1,4 @@
-// This file will contain the main game logic for Junni's Escape.
-
-class BootScene extends Phaser.Scene {
-    constructor() {
-        super({ key: 'BootScene' });
-    }
-
-    create() {
-        console.log('BootScene is active. Starting PlayScene...');
-        this.scene.start('PlayScene');
-    }
-}
-
-class PlayScene extends Phaser.Scene {
+export default class PlayScene extends Phaser.Scene {
     constructor() {
         super({ key: 'PlayScene' });
     }
@@ -85,20 +72,3 @@ class PlayScene extends Phaser.Scene {
         this.scene.restart();
     }
 }
-
-const config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    parent: 'game-container',
-    scene: [BootScene, PlayScene],
-    physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 600 }, // Apply stronger vertical gravity
-            debug: false
-        }
-    }
-};
-
-const game = new Phaser.Game(config);
