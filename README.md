@@ -30,11 +30,11 @@ To run the game on your local machine for development, follow these steps:
     ```bash
     chmod +x scripts/*.sh
     ```
-4.  To run the development server:
+4.  To start the game, run the start script:
     ```bash
-    ./scripts/develop.sh
+    ./scripts/start.sh
     ```
-5.  Open your web browser and navigate to `http://localhost:8000`. Changes you make in the `development` directory will be reflected here.
+5.  Your browser will open automatically to `http://localhost:8080`. The server will now watch for file changes and automatically reload the browser.
 
 ### Building for Production
 
@@ -46,9 +46,9 @@ This will populate the `production` directory with the latest code from `develop
 
 ### Running in Production Mode
 
-To simulate running the game in a production environment, you can use the start script:
+To simulate running the game in a production environment, you can use the production server script:
 ```bash
-./scripts/start.sh
+./scripts/serve-prod.sh
 ```
 This serves the files from the `production` directory.
 
