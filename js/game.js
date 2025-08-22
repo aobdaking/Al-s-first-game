@@ -71,7 +71,7 @@ class PlayScene extends Phaser.Scene {
     update() {
         // Jump mechanic
         if (Phaser.Input.Keyboard.JustDown(this.spaceBar) && this.player.body.touching.down) {
-            this.player.setVelocityY(-300);
+            this.player.setVelocityY(-450); // Apply a snappier vertical velocity upwards
         }
 
         // Score update
@@ -95,7 +95,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 600 }, // Apply stronger vertical gravity
             debug: false
         }
     }
