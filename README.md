@@ -40,6 +40,13 @@ To run the game on your local machine for development, follow these steps:
     ```
 6.  Your browser will open automatically to the development server (usually at `http://localhost:5500`). The server will watch for file changes and automatically reload the browser.
 
+4.  To start the game, run the start script:
+    ```bash
+    ./scripts/start.sh
+    ```
+5.  Your browser will open automatically to `http://localhost:8080`. The server will now watch for file changes and automatically reload the browser.
+
+
 ### Building for Production
 
 To create a production build, run the build script:
