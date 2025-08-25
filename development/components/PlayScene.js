@@ -4,20 +4,27 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     preload() {
-        // Player placeholder
-        const playerGraphics = this.make.graphics({ fillStyle: { color: 0xff0000 } });
-        playerGraphics.fillRect(0, 0, 32, 48);
+        // Cat character
+        const playerGraphics = this.make.graphics();
+        playerGraphics.fillStyle(0x1A1A1A);
+        playerGraphics.fillRect(2, 32, 28, 14);
+        playerGraphics.fillRect(8, 22, 16, 10);
+        playerGraphics.fillRect(12, 16, 8, 6);
+        playerGraphics.fillRect(14, 10, 4, 6);
+        playerGraphics.fillRect(12, 44, 8, 4);
+        playerGraphics.fillRect(4, 44, 4, 4);
+        playerGraphics.fillRect(24, 44, 4, 4);
         playerGraphics.generateTexture('player_placeholder', 32, 48);
         playerGraphics.destroy();
 
         // Ground placeholder
-        const groundGraphics = this.make.graphics({ fillStyle: { color: 0x00ff00 } });
+        const groundGraphics = this.make.graphics({ fillStyle: { color: 0x333333 } });
         groundGraphics.fillRect(0, 0, 4000, 32);
         groundGraphics.generateTexture('ground_placeholder', 4000, 32);
         groundGraphics.destroy();
 
         // Obstacle placeholder
-        const obstacleGraphics = this.make.graphics({ fillStyle: { color: 0x0000ff } });
+        const obstacleGraphics = this.make.graphics({ fillStyle: { color: 0x666666 } });
         obstacleGraphics.fillRect(0, 0, 32, 64);
         obstacleGraphics.generateTexture('obstacle_placeholder', 32, 64);
         obstacleGraphics.destroy();
