@@ -1,7 +1,7 @@
 #!/bin/bash
-# This script starts a simple HTTP server for running the production build.
-echo "Starting production server at http://localhost:8000"
-echo "Serving files from the 'production' directory."
-echo "Make sure you have run './scripts/build.sh' first."
+# This script starts a live-reloading server for developing the game.
+echo "Starting development server with live reload..."
+echo "Serving files from the 'development' directory."
+echo "Your browser will automatically refresh when you save changes."
 echo "Press Ctrl+C to stop the server."
-python3 -m http.server 8000 --directory production
+python3 -m livereload development/
