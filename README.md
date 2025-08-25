@@ -26,15 +26,26 @@ To run the game on your local machine for development, follow these steps:
 
 1.  Clone the repository to your local machine.
 2.  Navigate to the project directory in your terminal.
-3.  Make the scripts executable (only needs to be done once):
+3.  Install the required Python package for live reloading (only needs to be done once):
+    ```bash
+    pip3 install livereload
+    ```
+4.  Make the scripts executable (only needs to be done once):
     ```bash
     chmod +x scripts/*.sh
     ```
+5.  To start the game, run the start script:
+    ```bash
+    ./scripts/start.sh
+    ```
+6.  Your browser will open automatically to the development server (usually at `http://localhost:5500`). The server will watch for file changes and automatically reload the browser.
+
 4.  To start the game, run the start script:
     ```bash
     ./scripts/start.sh
     ```
 5.  Your browser will open automatically to `http://localhost:8080`. The server will now watch for file changes and automatically reload the browser.
+
 
 ### Building for Production
 
