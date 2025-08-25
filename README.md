@@ -26,15 +26,19 @@ To run the game on your local machine for development, follow these steps:
 
 1.  Clone the repository to your local machine.
 2.  Navigate to the project directory in your terminal.
-3.  Make the scripts executable (only needs to be done once):
+3.  Install the required Python package for live reloading (only needs to be done once):
+    ```bash
+    pip3 install livereload
+    ```
+4.  Make the scripts executable (only needs to be done once):
     ```bash
     chmod +x scripts/*.sh
     ```
-4.  To run the development server:
+5.  To start the game, run the start script:
     ```bash
-    ./scripts/develop.sh
+    ./scripts/start.sh
     ```
-5.  Open your web browser and navigate to `http://localhost:8000`. Changes you make in the `development` directory will be reflected here.
+6.  Your browser will open automatically to the development server (usually at `http://localhost:5500`). The server will watch for file changes and automatically reload the browser.
 
 ### Building for Production
 
@@ -46,9 +50,9 @@ This will populate the `production` directory with the latest code from `develop
 
 ### Running in Production Mode
 
-To simulate running the game in a production environment, you can use the start script:
+To simulate running the game in a production environment, you can use the production server script:
 ```bash
-./scripts/start.sh
+./scripts/serve-prod.sh
 ```
 This serves the files from the `production` directory.
 
