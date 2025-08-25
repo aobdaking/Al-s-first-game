@@ -6,7 +6,7 @@ export default class PlayScene extends Phaser.Scene {
     preload() {
         // Cat character
         const playerGraphics = this.make.graphics();
-        playerGraphics.fillStyle(0x1A1A1A);
+        playerGraphics.fillStyle(0xFF5733);
         playerGraphics.fillRect(2, 32, 28, 14);
         playerGraphics.fillRect(8, 22, 16, 10);
         playerGraphics.fillRect(12, 16, 8, 6);
@@ -18,13 +18,13 @@ export default class PlayScene extends Phaser.Scene {
         playerGraphics.destroy();
 
         // Ground placeholder
-        const groundGraphics = this.make.graphics({ fillStyle: { color: 0x333333 } });
+        const groundGraphics = this.make.graphics({ fillStyle: { color: 0x66FF66 } });
         groundGraphics.fillRect(0, 0, 4000, 32);
         groundGraphics.generateTexture('ground_placeholder', 4000, 32);
         groundGraphics.destroy();
 
         // Obstacle placeholder
-        const obstacleGraphics = this.make.graphics({ fillStyle: { color: 0x666666 } });
+        const obstacleGraphics = this.make.graphics({ fillStyle: { color: 0xFF0000 } });
         obstacleGraphics.fillRect(0, 0, 32, 64);
         obstacleGraphics.generateTexture('obstacle_placeholder', 32, 64);
         obstacleGraphics.destroy();
@@ -51,6 +51,7 @@ export default class PlayScene extends Phaser.Scene {
         // World and Camera setup
         this.physics.world.setBounds(0, 0, 4000, 600);
         this.cameras.main.setBounds(0, 0, 4000, 600);
+        this.cameras.main.setBackgroundColor(0xD3D3D3);
         this.cameras.main.startFollow(this.player);
 
         // Input setup
