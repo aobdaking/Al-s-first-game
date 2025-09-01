@@ -6,14 +6,26 @@ export default class PlayScene extends Phaser.Scene {
     preload() {
         // Cat character
         const playerGraphics = this.make.graphics();
-        playerGraphics.fillStyle(0xFF5733);
-        playerGraphics.fillRect(2, 32, 28, 14);
-        playerGraphics.fillRect(8, 22, 16, 10);
-        playerGraphics.fillRect(12, 16, 8, 6);
-        playerGraphics.fillRect(14, 10, 4, 6);
-        playerGraphics.fillRect(12, 44, 8, 4);
-        playerGraphics.fillRect(4, 44, 4, 4);
-        playerGraphics.fillRect(24, 44, 4, 4);
+        playerGraphics.fillStyle(0x000000); // Black Cat
+
+        // Tail
+        playerGraphics.fillRect(0, 26, 10, 4);
+        playerGraphics.fillRect(6, 22, 4, 4);
+
+        // Body
+        playerGraphics.fillRect(8, 30, 20, 12);
+
+        // Head
+        playerGraphics.fillRect(22, 22, 8, 8);
+
+        // Ears
+        playerGraphics.fillRect(22, 18, 2, 4);
+        playerGraphics.fillRect(28, 18, 2, 4);
+
+        // Legs
+        playerGraphics.fillRect(10, 42, 4, 6);
+        playerGraphics.fillRect(20, 42, 4, 6);
+
         playerGraphics.generateTexture('player_placeholder', 32, 48);
         playerGraphics.destroy();
 
