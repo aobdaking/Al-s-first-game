@@ -9,24 +9,31 @@ export default class PlayScene extends Phaser.Scene {
         playerGraphics.fillStyle(0x000000); // Black Cat
 
         // Tail
-        playerGraphics.fillRect(0, 26, 10, 4);
-        playerGraphics.fillRect(6, 22, 4, 4);
+        playerGraphics.fillRect(0, 39, 15, 6);
+        playerGraphics.fillRect(9, 33, 6, 6);
 
         // Body
-        playerGraphics.fillRect(8, 30, 20, 12);
+        playerGraphics.fillRect(12, 45, 30, 18);
 
         // Head
-        playerGraphics.fillRect(22, 22, 8, 8);
+        playerGraphics.fillRect(33, 33, 12, 12);
+
+        // Eyes
+        playerGraphics.fillStyle(0xFFFFFF); // White
+        playerGraphics.fillRect(36, 37, 2, 2);
+        playerGraphics.fillRect(41, 37, 2, 2);
+
+        playerGraphics.fillStyle(0x000000); // Black Cat
 
         // Ears
-        playerGraphics.fillRect(22, 18, 2, 4);
-        playerGraphics.fillRect(28, 18, 2, 4);
+        playerGraphics.fillRect(33, 27, 3, 6);
+        playerGraphics.fillRect(42, 27, 3, 6);
 
         // Legs
-        playerGraphics.fillRect(10, 42, 4, 6);
-        playerGraphics.fillRect(20, 42, 4, 6);
+        playerGraphics.fillRect(15, 63, 6, 9);
+        playerGraphics.fillRect(30, 63, 6, 9);
 
-        playerGraphics.generateTexture('player_placeholder', 32, 48);
+        playerGraphics.generateTexture('player_placeholder', 48, 72);
         playerGraphics.destroy();
 
         // Ground placeholder
