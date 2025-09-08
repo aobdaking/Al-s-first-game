@@ -6,25 +6,38 @@ export default class PlayScene extends Phaser.Scene {
 
     create() {
         // Player setup
-        this.player = this.physics.add.sprite(100, 600, 'player');
+        this.player = this.physics.add.sprite(100, 1016, 'player');
+        this.player.setOrigin(0.5, 1);
+        this.player.setScale(0.5);
         this.player.setVelocityX(150);
         this.player.setCollideWorldBounds(true);
 
         // Ground setup
-        const ground = this.physics.add.staticSprite(2000, 688, 'ground');
+        const ground = this.add.tileSprite(0, 1080, 4000, 128, 'ground');
+        ground.setOrigin(0, 1);
+        this.physics.add.existing(ground, true);
         this.physics.add.collider(this.player, ground);
 
         // Obstacle setup
         this.obstacles = this.physics.add.staticGroup();
-        this.obstacles.create(600, 640, 'obstacle');
-        this.obstacles.create(950, 640, 'obstacle');
-        this.obstacles.create(1400, 640, 'obstacle');
-        this.obstacles.create(1800, 640, 'obstacle');
+        // A little helper function to create obstacles
+        const createObstacle = (x) => {
+            const obstacle = this.obstacles.create(x, 1016, 'obstacle');
+            obstacle.setOrigin(0.5, 1);
+            obstacle.setScale(0.5);
+            obstacle.refreshBody();
+        };
+
+        createObstacle(600);
+        createObstacle(950);
+        createObstacle(1400);
+        createObstacle(1800);
+
         this.physics.add.collider(this.player, this.obstacles, this.hitObstacle, null, this);
 
         // World and Camera setup
-        this.physics.world.setBounds(0, 0, 4000, 720);
-        this.cameras.main.setBounds(0, 0, 4000, 720);
+        this.physics.world.setBounds(0, 0, 4000, 1080);
+        this.cameras.main.setBounds(0, 0, 4000, 1080);
         this.cameras.main.setBackgroundColor(0xD3D3D3);
         this.cameras.main.startFollow(this.player);
 
