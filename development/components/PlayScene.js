@@ -3,73 +3,41 @@ export default class PlayScene extends Phaser.Scene {
         super({ key: 'PlayScene' });
     }
 
-    preload() {
-        // Cat character
-        const playerGraphics = this.make.graphics();
-        playerGraphics.fillStyle(0x000000); // Black Cat
-
-        // Tail
-        playerGraphics.fillRect(0, 39, 15, 6);
-        playerGraphics.fillRect(9, 33, 6, 6);
-
-        // Body
-        playerGraphics.fillRect(12, 45, 30, 18);
-
-        // Head
-        playerGraphics.fillRect(33, 33, 12, 12);
-
-        // Eyes
-        playerGraphics.fillStyle(0xFFFFFF); // White
-        playerGraphics.fillRect(36, 37, 2, 2);
-        playerGraphics.fillRect(41, 37, 2, 2);
-
-        playerGraphics.fillStyle(0x000000); // Black Cat
-
-        // Ears
-        playerGraphics.fillRect(33, 27, 3, 6);
-        playerGraphics.fillRect(42, 27, 3, 6);
-
-        // Legs
-        playerGraphics.fillRect(15, 63, 6, 9);
-        playerGraphics.fillRect(30, 63, 6, 9);
-
-        playerGraphics.generateTexture('player_placeholder', 48, 72);
-        playerGraphics.destroy();
-
-        // Ground placeholder
-        const groundGraphics = this.make.graphics({ fillStyle: { color: 0x66FF66 } });
-        groundGraphics.fillRect(0, 0, 4000, 32);
-        groundGraphics.generateTexture('ground_placeholder', 4000, 32);
-        groundGraphics.destroy();
-
-        // Obstacle placeholder
-        const obstacleGraphics = this.make.graphics({ fillStyle: { color: 0xFF0000 } });
-        obstacleGraphics.fillRect(0, 0, 32, 64);
-        obstacleGraphics.generateTexture('obstacle_placeholder', 32, 64);
-        obstacleGraphics.destroy();
-    }
 
     create() {
         // Player setup
-        this.player = this.physics.add.sprite(100, 100, 'player_placeholder');
+        this.player = this.physics.add.sprite(100, 1016, 'player');
+        this.player.setOrigin(0.5, 1);
+        this.player.setScale(0.5);
         this.player.setVelocityX(150);
         this.player.setCollideWorldBounds(true);
 
         // Ground setup
-        const ground = this.physics.add.staticSprite(2000, 584, 'ground_placeholder');
+        const ground = this.add.tileSprite(0, 1080, 4000, 128, 'ground');
+        ground.setOrigin(0, 1);
+        this.physics.add.existing(ground, true);
         this.physics.add.collider(this.player, ground);
 
         // Obstacle setup
         this.obstacles = this.physics.add.staticGroup();
-        this.obstacles.create(600, 552, 'obstacle_placeholder');
-        this.obstacles.create(950, 552, 'obstacle_placeholder');
-        this.obstacles.create(1400, 552, 'obstacle_placeholder');
-        this.obstacles.create(1800, 552, 'obstacle_placeholder');
+        // A little helper function to create obstacles
+        const createObstacle = (x) => {
+            const obstacle = this.obstacles.create(x, 1016, 'obstacle');
+            obstacle.setOrigin(0.5, 1);
+            obstacle.setScale(0.5);
+            obstacle.refreshBody();
+        };
+
+        createObstacle(600);
+        createObstacle(950);
+        createObstacle(1400);
+        createObstacle(1800);
+
         this.physics.add.collider(this.player, this.obstacles, this.hitObstacle, null, this);
 
         // World and Camera setup
-        this.physics.world.setBounds(0, 0, 4000, 600);
-        this.cameras.main.setBounds(0, 0, 4000, 600);
+        this.physics.world.setBounds(0, 0, 4000, 1080);
+        this.cameras.main.setBounds(0, 0, 4000, 1080);
         this.cameras.main.setBackgroundColor(0xD3D3D3);
         this.cameras.main.startFollow(this.player);
 
