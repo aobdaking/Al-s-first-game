@@ -5,8 +5,8 @@ import PlayScene from './components/PlayScene.js';
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     parent: 'game-container',
     scene: [BootScene, PlayScene],
     physics: {
