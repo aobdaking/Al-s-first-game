@@ -6,9 +6,10 @@ export default class PlayScene extends Phaser.Scene {
 
     create() {
         // Player setup
-        this.player = this.physics.add.sprite(100, 1016, 'player');
+        this.player = this.physics.add.sprite(100, 900, 'player');
         this.player.setOrigin(0.5, 1);
         this.player.setScale(0.5);
+        this.player.body.setSize(100, 150, true);
         this.player.setVelocityX(150);
         this.player.setCollideWorldBounds(true);
 
@@ -22,9 +23,10 @@ export default class PlayScene extends Phaser.Scene {
         this.obstacles = this.physics.add.staticGroup();
         // A little helper function to create obstacles
         const createObstacle = (x) => {
-            const obstacle = this.obstacles.create(x, 1016, 'obstacle');
+            const obstacle = this.obstacles.create(x, 952, 'obstacle');
             obstacle.setOrigin(0.5, 1);
             obstacle.setScale(0.5);
+            obstacle.body.setCircle(obstacle.width / 2);
             obstacle.refreshBody();
         };
 
