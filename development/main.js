@@ -1,12 +1,11 @@
-
 import BootScene from './components/BootScene.js';
 import PlayScene from './components/PlayScene.js';
 
 
 const config = {
     type: Phaser.AUTO,
-    width: 1920,
-    height: 1080,
+    width: 1280,
+    height: 720,
     parent: 'game-container',
     scene: [BootScene, PlayScene],
     physics: {
