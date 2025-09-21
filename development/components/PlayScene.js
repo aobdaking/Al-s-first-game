@@ -6,10 +6,9 @@ export default class PlayScene extends Phaser.Scene {
 
     create() {
         // Player setup
-        this.player = this.physics.add.sprite(100, 900, 'player');
+        this.player = this.physics.add.sprite(100, 450, 'player');
         this.player.setOrigin(0.5, 1);
         this.player.setScale(0.5);
-        this.player.body.setSize(100, 150, true);
         this.player.setVelocityX(150);
         this.player.setCollideWorldBounds(true);
 
