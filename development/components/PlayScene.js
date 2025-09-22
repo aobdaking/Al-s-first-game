@@ -3,6 +3,12 @@ export default class PlayScene extends Phaser.Scene {
         super({ key: 'PlayScene' });
     }
 
+    preload() {
+        // Load assets for this scene
+        for (let i = 1; i <= 9; i++) {
+            this.load.image(`run${i}`, `assets/Sprites/Characters/Run${i}.png`);
+        }
+    }
 
     create() {
         // Animation setup
