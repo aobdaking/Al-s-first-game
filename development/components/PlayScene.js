@@ -3,17 +3,11 @@ export default class PlayScene extends Phaser.Scene {
         super({ key: 'PlayScene' });
     }
 
-    preload() {
-        // Load assets for this scene
-        for (let i = 1; i <= 9; i++) {
-            this.load.image(`run${i}`, `assets/Sprites/Characters/Run${i}.png`);
-        }
-    }
 
     create() {
         // Animation setup
         this.anims.create({
-            key: 'running_animation',
+            key: 'run',
             frames: [
                 { key: 'run1' },
                 { key: 'run2' },
@@ -31,14 +25,14 @@ export default class PlayScene extends Phaser.Scene {
 
         // Player setup
         this.player = this.physics.add.sprite(100, 450, 'run1');
-        this.player.anims.play('running_animation', true);
         this.player.setOrigin(0.5, 1);
-        this.player.setScale(0.3);
+        this.player.setScale(0.5);
         this.player.setVelocityX(150);
         this.player.setCollideWorldBounds(true);
+        this.player.anims.play('run', true);
 
         // Ground setup
-        const ground = this.add.tileSprite(0, 720, 4000, 128, 'ground');
+        const ground = this.add.tileSprite(0, 1080, 4000, 128, 'ground');
         ground.setOrigin(0, 1);
         this.physics.add.existing(ground, true);
         this.physics.add.collider(this.player, ground);
@@ -47,7 +41,7 @@ export default class PlayScene extends Phaser.Scene {
         this.obstacles = this.physics.add.staticGroup();
         // A little helper function to create obstacles
         const createObstacle = (x) => {
-            const obstacle = this.obstacles.create(x, 592, 'obstacle');
+            const obstacle = this.obstacles.create(x, 952, 'obstacle');
             obstacle.setOrigin(0.5, 1);
             obstacle.setScale(0.5);
             obstacle.body.setCircle(obstacle.width / 2);
@@ -62,8 +56,8 @@ export default class PlayScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.obstacles, this.hitObstacle, null, this);
 
         // World and Camera setup
-        this.physics.world.setBounds(0, 0, 4000, 720);
-        this.cameras.main.setBounds(0, 0, 4000, 720);
+        this.physics.world.setBounds(0, 0, 4000, 1080);
+        this.cameras.main.setBounds(0, 0, 4000, 1080);
         this.cameras.main.setBackgroundColor(0xD3D3D3);
         this.cameras.main.startFollow(this.player);
 
