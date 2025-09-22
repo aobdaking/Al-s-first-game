@@ -13,7 +13,7 @@ export default class PlayScene extends Phaser.Scene {
     create() {
         // Animation setup
         this.anims.create({
-            key: 'run',
+            key: 'running_animation',
             frames: [
                 { key: 'run1' },
                 { key: 'run2' },
@@ -31,11 +31,11 @@ export default class PlayScene extends Phaser.Scene {
 
         // Player setup
         this.player = this.physics.add.sprite(100, 450, 'run1');
+        this.player.anims.play('running_animation', true);
         this.player.setOrigin(0.5, 1);
-        this.player.setScale(0.5);
+        this.player.setScale(0.3);
         this.player.setVelocityX(150);
         this.player.setCollideWorldBounds(true);
-        this.player.anims.play('run', true);
 
         // Ground setup
         const ground = this.add.tileSprite(0, 720, 4000, 128, 'ground');
