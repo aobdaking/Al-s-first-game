@@ -5,12 +5,31 @@ export default class PlayScene extends Phaser.Scene {
 
 
     create() {
+        // Animation setup
+        this.anims.create({
+            key: 'run',
+            frames: [
+                { key: 'run1' },
+                { key: 'run2' },
+                { key: 'run3' },
+                { key: 'run4' },
+                { key: 'run5' },
+                { key: 'run6' },
+                { key: 'run7' },
+                { key: 'run8' },
+                { key: 'run9' },
+            ],
+            frameRate: 27,
+            repeat: -1
+        });
+
         // Player setup
-        this.player = this.physics.add.sprite(100, 450, 'player');
+        this.player = this.physics.add.sprite(100, 450, 'run1');
         this.player.setOrigin(0.5, 1);
         this.player.setScale(0.5);
         this.player.setVelocityX(150);
         this.player.setCollideWorldBounds(true);
+        this.player.anims.play('run', true);
 
         // Ground setup
         const ground = this.add.tileSprite(0, 1080, 4000, 128, 'ground');
