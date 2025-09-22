@@ -1,4 +1,5 @@
-import TestScene from './components/TestScene.js';
+import BootScene from './components/BootScene.js';
+import PlayScene from './components/PlayScene.js';
 
 
 const config = {
@@ -6,7 +7,7 @@ const config = {
     width: 1280,
     height: 720,
     parent: 'game-container',
-    scene: [TestScene],
+    scene: [BootScene, PlayScene],
     physics: {
         default: 'arcade',
         arcade: {
