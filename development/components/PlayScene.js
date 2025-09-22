@@ -3,6 +3,12 @@ export default class PlayScene extends Phaser.Scene {
         super({ key: 'PlayScene' });
     }
 
+    preload() {
+        // Load assets for this scene
+        for (let i = 1; i <= 9; i++) {
+            this.load.image(`run${i}`, `assets/Sprites/Characters/Run${i}.png`);
+        }
+    }
 
     create() {
         // Animation setup
@@ -10,6 +16,14 @@ export default class PlayScene extends Phaser.Scene {
             key: 'run',
             frames: [
                 { key: 'run1' },
+                { key: 'run2' },
+                { key: 'run3' },
+                { key: 'run4' },
+                { key: 'run5' },
+                { key: 'run6' },
+                { key: 'run7' },
+                { key: 'run8' },
+                { key: 'run9' },
             ],
             frameRate: 27,
             repeat: -1
