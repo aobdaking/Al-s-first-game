@@ -10,14 +10,6 @@ export default class PlayScene extends Phaser.Scene {
             key: 'run',
             frames: [
                 { key: 'run1' },
-                { key: 'run2' },
-                { key: 'run3' },
-                { key: 'run4' },
-                { key: 'run5' },
-                { key: 'run6' },
-                { key: 'run7' },
-                { key: 'run8' },
-                { key: 'run9' },
             ],
             frameRate: 27,
             repeat: -1
