@@ -83,7 +83,8 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     hitObstacle(player, obstacle) {
-        // When the player hits an obstacle, restart the scene
+        // When the player hits an obstacle, reset the score and restart the scene
+        this.score = 0;
         this.scene.restart();
     }
 }
