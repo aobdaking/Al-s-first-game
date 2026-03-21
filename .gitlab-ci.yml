@@ -1,16 +1,8 @@
-# .gitlab-ci.yml
-image: node:20-alpine # Lightweight Node.js image for rapid jobs
+# .gitlab-ci.yml (Configured for GitLab Pages & Vite)
 
-stages:
-  - build
-  - test
-  - deploy
+image: node:20-alpine
 
-variables:
-  STAGING_SERVER: "staging.ourgame.com"
-  PROD_SERVER: "play.ourgame.com"
-
-# Cache node_modules to speed up pipeline execution time 
+# Cache dependencies to speed up pipelines
 cache:
   key:
     files:
@@ -18,17 +10,22 @@ cache:
   paths:
     - node_modules/
 
+stages:
+  - build
+  - test
+  - deploy
+
 # --- BUILD STAGE ---
 build_game:
   stage: build
   script:
-    - echo "🛠️ Building the game..."
-    - npm ci
-    - npm run lint # Security & Quality check
+    - echo "🛠️ Building Vite + Phaser game..."
+    - npm install
     - npm run build
   artifacts:
+    name: "vite-build-$CI_COMMIT_REF_SLUG"
     paths:
-      - dist/ # Pass the compiled static files to the next stages
+      - dist/ # Vite outputs the compiled game here
     expire_in: 1 hour
 
 # --- TEST STAGE (Robbie's Domain) ---
@@ -39,34 +36,21 @@ run_tests:
   script:
     - echo "🧪 Robbie is running the automated test suites..."
     - npm run test:unit
-    - npm run test:e2e # Runs browser tests (e.g. Playwright/Cypress)
-  # If tests fail, the pipeline exits here.
+    - npm run test:e2e
 
-# --- DEPLOYMENT STAGES ---
-deploy_staging:
+# --- DEPLOYMENT STAGE (GitLab Pages) ---
+# For GitLab pages, the job MUST be named 'pages' and the artifact 
+# folder MUST be named 'public'.
+pages:
   stage: deploy
   dependencies:
     - build_game
   script:
-    - echo "🚀 Deploying to Staging Environment ($STAGING_SERVER)..."
-    # Command to deploy (e.g., Vercel CLI, AWS S3 Sync, or Docker pull)
-    # - npx vercel --token $VERCEL_TOKEN
-  environment:
-    name: staging
-    url: https://$STAGING_SERVER
+    - echo "🚀 Deploying to GitLab Pages..."
+    - rm -rf public # Ensure clean slate
+    - mv dist public # Rename Vite's 'dist' folder to 'public' for GitLab Pages
+  artifacts:
+    paths:
+      - public/
   only:
-    - develop
-    - feature/*
-
-deploy_production:
-  stage: deploy
-  dependencies:
-    - build_game
-  script:
-    - echo "🌟 Deploying to Production ($PROD_SERVER)..."
-    # - npx vercel --prod --token $VERCEL_TOKEN
-  environment:
-    name: production
-    url: https://$PROD_SERVER
-  only:
-    - main # Only deploys to prod when securely merged to main
+    - main # Only deploy when code is pushed to the main branch
