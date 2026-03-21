@@ -1,0 +1,72 @@
+# .gitlab-ci.yml
+image: node:20-alpine # Lightweight Node.js image for rapid jobs
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  STAGING_SERVER: "staging.ourgame.com"
+  PROD_SERVER: "play.ourgame.com"
+
+# Cache node_modules to speed up pipeline execution time 
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules/
+
+# --- BUILD STAGE ---
+build_game:
+  stage: build
+  script:
+    - echo "🛠️ Building the game..."
+    - npm ci
+    - npm run lint # Security & Quality check
+    - npm run build
+  artifacts:
+    paths:
+      - dist/ # Pass the compiled static files to the next stages
+    expire_in: 1 hour
+
+# --- TEST STAGE (Robbie's Domain) ---
+run_tests:
+  stage: test
+  dependencies:
+    - build_game
+  script:
+    - echo "🧪 Robbie is running the automated test suites..."
+    - npm run test:unit
+    - npm run test:e2e # Runs browser tests (e.g. Playwright/Cypress)
+  # If tests fail, the pipeline exits here.
+
+# --- DEPLOYMENT STAGES ---
+deploy_staging:
+  stage: deploy
+  dependencies:
+    - build_game
+  script:
+    - echo "🚀 Deploying to Staging Environment ($STAGING_SERVER)..."
+    # Command to deploy (e.g., Vercel CLI, AWS S3 Sync, or Docker pull)
+    # - npx vercel --token $VERCEL_TOKEN
+  environment:
+    name: staging
+    url: https://$STAGING_SERVER
+  only:
+    - develop
+    - feature/*
+
+deploy_production:
+  stage: deploy
+  dependencies:
+    - build_game
+  script:
+    - echo "🌟 Deploying to Production ($PROD_SERVER)..."
+    # - npx vercel --prod --token $VERCEL_TOKEN
+  environment:
+    name: production
+    url: https://$PROD_SERVER
+  only:
+    - main # Only deploys to prod when securely merged to main
