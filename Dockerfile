@@ -13,13 +13,14 @@ COPY . .
 
 # Build the game (outputs to /app/dist)
 RUN npm run build || true
+RUN mkdir -p /app/dist
 # We use || true safely here to avoid breaking during initial stages when
 # build script might not exist yet from Code.
 
 # --- Stage 2: Serve the game (Production-Ready) ---
 FROM nginx:alpine
 # Copy the built lightweight assets from the builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html || echo "No build output found"
+COPY --from=builder /app/dist/ /usr/share/nginx/html/
 
 # Expose port 80 for standard web traffic
 EXPOSE 80
