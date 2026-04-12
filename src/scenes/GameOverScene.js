@@ -34,9 +34,8 @@ export default class GameOverScene extends Phaser.Scene {
             fill: '#FFD700'
         }).setOrigin(0.5).setInteractive();
 
-        retryButton.on('pointerdown', () => {
-            // QA Fix: Prevent button spam while the scene transitions
-            retryButton.disableInteractive();
+        retryButton.once('pointerdown', () => {
+            // Using .once() intrinsically acts as a physical debounce without mutating the Input array
             // MainScene clears all properties intrinsically in its init() block
             this.scene.start('MainScene');
         });

@@ -20,9 +20,8 @@ export default class MenuScene extends Phaser.Scene {
             fill: '#00FA9A' 
         }).setOrigin(0.5).setInteractive();
 
-        startButton.on('pointerdown', () => {
-            // QA Fix: Prevent button spam while the scene transitions
-            startButton.disableInteractive();
+        startButton.once('pointerdown', () => {
+            // Using .once() intrinsically acts as a physical debounce without mutating the Input array
             this.scene.start('MainScene');
         });
 
