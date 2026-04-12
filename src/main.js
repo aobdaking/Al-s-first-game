@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import PreloadScene from './scenes/PreloadScene';
+import MenuScene from './scenes/MenuScene';
 import MainScene from './scenes/MainScene';
+import GameOverScene from './scenes/GameOverScene';
 
 const config = {
     type: Phaser.AUTO,
@@ -10,13 +12,15 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 600 }, // Setting standard gravity for a 2D platformer
-            debug: false         // Can be toggled on later for testing by Robbie
+            gravity: { y: 600 }, 
+            debug: false         
         }
     },
     scene: [
         PreloadScene,
-        MainScene
+        MenuScene,
+        MainScene,
+        GameOverScene
     ]
 };
 

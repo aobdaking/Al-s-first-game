@@ -46,7 +46,7 @@ We will maintain a strict folder structure. Agents must respect these boundaries
 *   `/src/assets`: **Art** defines what goes here; **Code** loads it.
 *   `/src/scenes` & `/src/main.js`: **Code** has absolute ownership here.
 *   `/src/tests`: **Robbie** owns any automated scripts placed here.
-*   `/.gitlab-ci.yml` & `Dockerfile`: **Devon** has absolute ownership here.
+*   `.github/workflows/deploy.yml` & `Dockerfile`: **Devon** has absolute ownership here.
 
 ---
 

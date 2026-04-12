@@ -26,7 +26,7 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     create() {
-        // Proceed to the MainScene once assets are loaded
-        this.scene.start('MainScene');
+        // Proceed to the MenuScene once assets are loaded
+        this.scene.start('MenuScene');
     }
 }

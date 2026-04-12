@@ -1,35 +1,30 @@
 # 🎯 PROJECT STATE & TRACKER
 
-**Current Project Phase:** Phase 3 - Menus, Flow, & Polish
+**Current Project Phase:** Phase 4 - User Acceptance Testing (Beta) & Deployment
 **Game Genre:** 2D Platformer (Phaser.js)
 
 ---
 
 ## 🟢 ACTIVE TASKS (Who is doing what right now?)
-*   [x] **Project Manager (Human):** Trigger Phase 3 (Menus & Polish).
-*   [ ] **Art (Design):** Design layout and typography for Main Menu, Game Over screen, and Level Complete screen. Source or specify audio/SFX requirements.
-*   [ ] **Code (Dev):** Scaffold `MenuScene.js` and `GameOverScene.js`. Create the scene transition logic (Start -> Main -> End -> Replay). Add SFX triggers.
-*   [ ] **Robbie (QA):** Create a testing plan for Scene transitioning (e.g., memory wiping when restarting the level) and audio loading.
+*   [x] **Project Manager (Human):** Trigger Phase 4 and establish a user testing period.
+*   [x] **Devon (DevOps):** Execute the pipeline to deploy the game to a staging URL (GitHub Pages) so real users can play it. *(Completed: Pipeline executed successfully, deployed to `https://altonbryant.github.io/Al-s-first-game-1/`)*
+*   [ ] **Robbie (QA):** Serve as User Research Lead. Create a `BETA_FEEDBACK.md` file containing the survey questions users should answer regarding difficulty and fun factor.
+*   [ ] **Code & Art:** (Standby) Await user feedback to make final balancing tweaks.
 
 ---
 
 ## 📝 BACKLOG (Upcoming Features)
-*   [ ] Final Pixel Art Injection (Replacing placeholders)
-*   [ ] Final E2E Playtest
-*   [ ] Gitlab CI/CD production release
+*   [ ] Act on Beta Feedback (Balancing)
+*   [ ] Final Production Release
 
 ---
 
 ## ✅ COMPLETED
-*   [x] Project Setup, Vite Config, and CI/CD Pipeline (Devon)
-*   [x] Basic Phaser MainScene with Cat Physics, drag, hitboxes (Code)
-*   [x] Cat, Kitchen, Mouse, Projectile, and UI Dimension Models (Art)
-*   [x] MouseSpawner and dynamic Projectile rotation (Code)
-*   [x] Level Progression, UI Progress Bar, and Bonus Birds (Code)
-*   [x] `triggerWin()` and Invulnerability states (Code & Robbie)
-*   [x] All QA Loops Passed for Physics, Memory Leaks, and End-of-Level (Robbie)
+*   [x] Phase 1: Engine Foundation & Movement (Code & Robbie)
+*   [x] Phase 2: Mouse Spawner, Projectiles, Collisions & Catching Birds (Code & Art)
+*   [x] Phase 3: Menu Flow, Data Payloads across Scenes, and Button Debouncing (Code & Robbie)
 
 ---
 
 ## 🛑 BLOCKERS / NOTES
-*   **None currently.** Ready to execute Phase 3 Tasks.
+*   **None currently.** Ready for the Beta Launch!

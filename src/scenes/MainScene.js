@@ -10,11 +10,13 @@ export default class MainScene extends Phaser.Scene {
         this.jumpDuration = 0;
         this.isJumping = false;
 
-        // Phase 3 logic
         this.distanceTraveled = 0;
         this.maxLevelDistance = 10000;
         this.score = 0;
         this.gameWon = false;
+        
+        // Phase 3: Heath state
+        this.health = 3;
     }
 
     create() {
@@ -49,14 +51,15 @@ export default class MainScene extends Phaser.Scene {
         // Input Setup
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        // UI Overlay Setup (Scroll factor 0 means it stays locked to screen)
+        // UI Overlay Setup 
         this.scoreText = this.add.text(10, 40, 'Score: 0', { font: '24px Arial', fill: '#FFD700', fontStyle: 'bold' }).setScrollFactor(0);
         
+        // Health visualizer
+        this.healthText = this.add.text(10, 70, 'Health: 3', { font: '24px Arial', fill: '#ff0000', fontStyle: 'bold' }).setScrollFactor(0);
+
         this.add.text(400, 15, 'Level Progress', { font: '14px Arial', fill: '#ffffff' }).setOrigin(0.5).setScrollFactor(0);
         this.progressOutline = this.add.rectangle(400, 35, 400, 20).setStrokeStyle(2, 0xffffff).setScrollFactor(0);
-        // Electric Cyan #00FFFF fill
         this.progressFill = this.add.rectangle(200, 35, 0, 20, 0x00FFFF).setOrigin(0, 0.5).setScrollFactor(0);
-        // 16x16px cat head tracker
         this.catHeadTracker = this.add.rectangle(200, 35, 16, 16, 0x000000).setScrollFactor(0);
 
         // Hazards Setup
@@ -89,39 +92,29 @@ export default class MainScene extends Phaser.Scene {
         this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.hazards, this.platforms, this.hitFloor, null, this);
         this.physics.add.collider(this.player, this.hazards, this.hitHazard, null, this);
-        
-        // Bonus Overlaps 
         this.physics.add.overlap(this.player, this.bonusGroup, this.collectBonus, null, this);
 
         // Camera Tracking
         this.cameras.main.setBounds(0, 0, this.maxLevelDistance, 600);
         this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
-
-        this.add.text(10, 10, 'Main Scene - Phase 3 UI & Scoring Active', {
-            font: '20px Arial', 
-            fill: '#00ff00'
-        }).setScrollFactor(0);
     }
 
     update(time, delta) {
-        if (this.gameWon) return; // Prevent movement when level complete
+        if (this.gameWon || this.health <= 0) return; 
 
         if (!this.player || !this.player.body) return;
 
-        // Phase 3: Progress and Win Tracking
         if (this.player.x > this.distanceTraveled) {
             this.distanceTraveled = this.player.x;
         }
 
         let progress = Math.min(this.distanceTraveled / this.maxLevelDistance, 1);
-        // Map 0 -> 1 progress to the 400 pixel width of our UI bar
         this.progressFill.width = 400 * progress;
         this.catHeadTracker.x = 200 + (400 * progress);
 
-        // Keep the Mouse hovering slightly ahead of the camera view
         this.mouse.x = this.cameras.main.scrollX + 700;
 
-        if (progress >= 1) {
+        if (progress >= 1 && !this.gameWon) {
             this.triggerWin();
         }
 
@@ -130,7 +123,6 @@ export default class MainScene extends Phaser.Scene {
         const jumpVelocity = -350; 
         const variableJumpPower = -8; 
 
-        // 1. Coyote Time tracking
         const isGrounded = body.blocked.down || body.touching.down;
         if (isGrounded) {
             this.coyoteTime = 100; 
@@ -142,7 +134,6 @@ export default class MainScene extends Phaser.Scene {
             return;
         }
 
-        // 2. Horizontal Movement logic (Acceleration & Friction)
         if (this.cursors.left.isDown) {
             body.setAccelerationX(-accel);
         } else if (this.cursors.right.isDown) {
@@ -151,7 +142,6 @@ export default class MainScene extends Phaser.Scene {
             body.setAccelerationX(0);
         }
 
-        // 3. Jump Logic (Variable Heights)
         const jumpKey = this.cursors.up.isDown || this.cursors.space.isDown;
         
         if (jumpKey && this.coyoteTime > 0 && !this.isJumping) {
@@ -159,6 +149,9 @@ export default class MainScene extends Phaser.Scene {
             this.isJumping = true;
             this.jumpDuration = 200; 
             this.coyoteTime = 0; 
+            
+            // SFX TODO from Art
+            // this.sound.play('jump');
         }
         
         if (jumpKey && this.isJumping && this.jumpDuration > 0) {
@@ -171,7 +164,6 @@ export default class MainScene extends Phaser.Scene {
             this.jumpDuration = 0;
         }
 
-        // 4. Memory Leak Protection (Garbage Collection)
         const activeHazards = this.hazards.getChildren();
         for (let i = activeHazards.length - 1; i >= 0; i--) {
             const h = activeHazards[i];
@@ -180,7 +172,6 @@ export default class MainScene extends Phaser.Scene {
             }
         }
 
-        // Clean up birds that fly entirely off screen
         const activeBirds = this.bonusGroup.getChildren();
         for (let i = activeBirds.length - 1; i >= 0; i--) {
             const b = activeBirds[i];
@@ -190,9 +181,20 @@ export default class MainScene extends Phaser.Scene {
         }
     }
 
+    triggerGameOver() {
+        this.physics.pause();
+        this.mouseSpawnerTimer.remove();
+        this.bonusTimer.remove();
+        // Transition to GameOverScene and pass payload
+        this.scene.start('GameOverScene', {
+            score: this.score,
+            distanceTraveled: this.distanceTraveled
+        });
+    }
+
     triggerWin() {
         this.gameWon = true;
-        this.player.isInvulnerable = true; // QA Fix: Ensure absolute safety upon winning
+        this.player.isInvulnerable = true; 
         this.physics.pause();
         this.mouseSpawnerTimer.remove();
         this.bonusTimer.remove();
@@ -209,11 +211,9 @@ export default class MainScene extends Phaser.Scene {
     spawnBonus() {
         if (this.gameWon || !this.player) return;
         
-        // Spawn birds on the right edge flying left
         const spawnX = this.cameras.main.scrollX + 900;
         const spawnY = Phaser.Math.Between(200, 450); 
         
-        // Starlight Gold #FFD700, 24x24px
         const bird = this.add.rectangle(spawnX, spawnY, 24, 24, 0xFFD700, 1);
         this.physics.add.existing(bird);
         this.bonusGroup.add(bird);
@@ -227,7 +227,9 @@ export default class MainScene extends Phaser.Scene {
         this.score += 500;
         this.scoreText.setText('Score: ' + this.score);
 
-        // Visual pop-up
+        // SFX TODO from Art
+        // this.sound.play('chime');
+
         const popup = this.add.text(player.x, player.y - 40, '+500!', {
             font: '20px Arial', fill: '#FFD700', fontStyle: 'bold', stroke: '#000', strokeThickness: 3
         });
@@ -258,7 +260,6 @@ export default class MainScene extends Phaser.Scene {
         projectile.name = 'projectile';
         
         projectile.body.setCircle(size / 2);
-        
         projectile.body.setAngularVelocity(Phaser.Math.Between(-400, 400));
         
         const dx = this.player.x - this.mouse.x;
@@ -273,6 +274,18 @@ export default class MainScene extends Phaser.Scene {
         player.isInvulnerable = true;
         player.state = 'hurt';
         player.fillColor = 0xff0000;
+
+        // Health Reduction
+        this.health -= 1;
+        this.healthText.setText('Health: ' + this.health);
+
+        // SFX TODO from Art
+        // this.sound.play('shatter');
+
+        if (this.health <= 0) {
+            this.triggerGameOver();
+            return;
+        }
 
         const knockbackDir = player.x < hazard.x ? -1 : 1;
         player.body.setVelocity(250 * knockbackDir, -300);
@@ -289,9 +302,11 @@ export default class MainScene extends Phaser.Scene {
             yoyo: true,
             repeat: 5, 
             onComplete: () => {
-                player.alpha = 1;
-                player.isInvulnerable = false;
-                player.fillColor = 0x000000;
+                if (this.health > 0) {
+                    player.alpha = 1;
+                    player.isInvulnerable = false;
+                    player.fillColor = 0x000000;
+                }
             }
         });
     }
