@@ -1,41 +1,35 @@
 # 🎯 PROJECT STATE & TRACKER
 
-**Current Project Phase:** Phase 1 - Project Setup & Foundation
+**Current Project Phase:** Phase 3 - Menus, Flow, & Polish
 **Game Genre:** 2D Platformer (Phaser.js)
 
 ---
 
 ## 🟢 ACTIVE TASKS (Who is doing what right now?)
-*   [ ] **Project Manager (Human):** Define the first creative concept/theme for the platformer.
-*   [x] **Devon (DevOps):** Initialize `package.json`, Vite configuration, and `.gitlab-ci.yml`. *(Completed: Scaffolded all required files, outlined the folder structure, and defined strict pipeline rules.)*
-*   [ ] **Code (Dev):** Scaffold the `main.js` Phaser instance and empty main scene with Arcade Physics enabled. *(Waiting for kick-off)*
-*   [ ] **Art (Design):** Establish the color palette and dimensions for the main character sprite. *(Waiting for kick-off)*
-*   [ ] **Robbie (QA):** Draft the initial testing blueprint for platformer movement. *(Waiting for kick-off)*
+*   [x] **Project Manager (Human):** Trigger Phase 3 (Menus & Polish).
+*   [ ] **Art (Design):** Design layout and typography for Main Menu, Game Over screen, and Level Complete screen. Source or specify audio/SFX requirements.
+*   [ ] **Code (Dev):** Scaffold `MenuScene.js` and `GameOverScene.js`. Create the scene transition logic (Start -> Main -> End -> Replay). Add SFX triggers.
+*   [ ] **Robbie (QA):** Create a testing plan for Scene transitioning (e.g., memory wiping when restarting the level) and audio loading.
 
 ---
 
 ## 📝 BACKLOG (Upcoming Features)
-*   [ ] Implement Player Movement (Run & Jump)
-*   [ ] Design First Level Tileset (Ground & Platforms)
-*   [ ] Implement Collision Detection between Player and Level
-*   [ ] Create basic Main Menu UI
+*   [ ] Final Pixel Art Injection (Replacing placeholders)
+*   [ ] Final E2E Playtest
+*   [ ] Gitlab CI/CD production release
 
 ---
 
 ## ✅ COMPLETED
-*   [x] Define development tech stack (Phaser.js + Vite)
-*   [x] Establish AI Agent Team (Code, Art, Robbie, Devon)
-*   [x] Create AGENT_RULEBOOK.md
+*   [x] Project Setup, Vite Config, and CI/CD Pipeline (Devon)
+*   [x] Basic Phaser MainScene with Cat Physics, drag, hitboxes (Code)
+*   [x] Cat, Kitchen, Mouse, Projectile, and UI Dimension Models (Art)
+*   [x] MouseSpawner and dynamic Projectile rotation (Code)
+*   [x] Level Progression, UI Progress Bar, and Bonus Birds (Code)
+*   [x] `triggerWin()` and Invulnerability states (Code & Robbie)
+*   [x] All QA Loops Passed for Physics, Memory Leaks, and End-of-Level (Robbie)
 
 ---
 
 ## 🛑 BLOCKERS / NOTES
-*   **None currently.** Ready for the first creative concept!
-
----
-
-## 🚀 Pipeline Rules
-1. **Merge to `main`:** All merges to `main` are automatically picked up by the GitLab CI runner and deployed to GitLab Pages if all prior stages pass.
-2. **Testing Gates (Robbie):** Robbie's `run_tests` job serves as a hard gate. If any unit or E2E tests fail, the deployment is aborted to protect production.
-3. **Build Artifacts:** We use Vite (`vite build`) to compile the game assets. The pipeline takes the `dist/` output, caches it securely, and pushes it as the `public/` artifact folder so GitLab Pages can serve it.
-4. **Dependency Approval:** "Code" must not introduce massive npm modules without DevOps approval to ensure pipeline execution times remain lightning fast.
+*   **None currently.** Ready to execute Phase 3 Tasks.
