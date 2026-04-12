@@ -7,7 +7,7 @@
 
 ## 🟢 ACTIVE TASKS (Who is doing what right now?)
 *   [x] **Project Manager (Human):** Trigger Phase 4 and establish a user testing period.
-*   [x] **Devon (DevOps):** Execute the pipeline to deploy the game to a staging URL (GitHub Pages) so real users can play it. *(Completed: Pipeline executed successfully, deployed to `https://altonbryant.github.io/Al-s-first-game-1/`)*
+*   [x] **Devon (DevOps):** Execute the pipeline to deploy the game to a staging URL (GitHub Pages) so real users can play it. *(Completed: Pipeline executed successfully, deployed to `https://aobdaking.github.io/Al-s-first-game/`)*
 *   [ ] **Robbie (QA):** Serve as User Research Lead. Create a `BETA_FEEDBACK.md` file containing the survey questions users should answer regarding difficulty and fun factor.
 *   [ ] **Code & Art:** (Standby) Await user feedback to make final balancing tweaks.
 

@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  // Use relative base path so assets load correctly on GitLab Pages (or any sub-path)
-  base: './',
+  // Use correct repository name as base path for GitHub Pages
+  base: '/Al-s-first-game/',
   server: {
     port: 3000,
     open: true,
