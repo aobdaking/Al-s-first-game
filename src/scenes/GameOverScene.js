@@ -19,24 +19,28 @@ export default class GameOverScene extends Phaser.Scene {
             .setStrokeStyle(6, 0xff0000); 
 
         this.add.text(width / 2, height / 2 - 120, 'GAME OVER', {
-            font: '48px "Press Start 2P", Courier, monospace',
+            fontFamily: '"Press Start 2P", Courier, monospace',
+            fontSize: '40px',
             fill: '#ff0000'
         }).setOrigin(0.5);
 
         this.add.text(width / 2, height / 2, `Score: ${this.finalScore}\nDistance: ${Math.floor(this.finalDistance)}px`, {
-            font: '24px "Press Start 2P", Courier, monospace',
+            fontFamily: '"Press Start 2P", Courier, monospace',
+            fontSize: '20px',
             fill: '#ffffff',
             align: 'center'
         }).setOrigin(0.5);
 
         const retryButton = this.add.text(width / 2, height / 2 + 120, 'TRY AGAIN', {
-            font: '32px "Press Start 2P", Courier, monospace',
-            fill: '#FFD700'
-        }).setOrigin(0.5).setInteractive();
+            fontFamily: '"Press Start 2P", Courier, monospace',
+            fontSize: '28px',
+            fill: '#FFD700',
+            padding: { x: 20, y: 15 }
+        })
+        .setOrigin(0.5)
+        .setInteractive({ useHandCursor: true });
 
-        retryButton.once('pointerdown', () => {
-            // Using .once() intrinsically acts as a physical debounce without mutating the Input array
-            // MainScene clears all properties intrinsically in its init() block
+        retryButton.on('pointerdown', () => {
             this.scene.start('MainScene');
         });
 
