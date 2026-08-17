@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { createGameTextures } from '../utils/SpriteGenerator';
 
 export default class PreloadScene extends Phaser.Scene {
     constructor() {
@@ -6,14 +7,13 @@ export default class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
-        // Loading bar or loading text could go here
         const width = this.cameras.main.width;
         const height = this.cameras.main.height;
         
         const loadingText = this.make.text({
             x: width / 2,
             y: height / 2,
-            text: 'Loading...',
+            text: 'Loading Assets...',
             style: {
                 font: '20px Courier',
                 fill: '#ffffff'
@@ -21,12 +21,18 @@ export default class PreloadScene extends Phaser.Scene {
         });
         loadingText.setOrigin(0.5, 0.5);
 
-        // TODO: Load visual assets and CSS guidelines from Art
-        // example: this.load.image('player', 'assets/player.png');
+        // Generate custom procedural pixel art textures for Cat, Mouse, Bird, and Hazards
+        createGameTextures(this);
     }
 
     create() {
-        // Proceed to the MenuScene once assets are loaded
-        this.scene.start('MenuScene');
+        // Wait for custom web fonts to be fully loaded before starting MenuScene
+        if (document.fonts) {
+            document.fonts.ready.then(() => {
+                this.scene.start('MenuScene');
+            });
+        } else {
+            this.scene.start('MenuScene');
+        }
     }
 }
